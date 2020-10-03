@@ -19,6 +19,12 @@ This connects to an old (like 2004 old) data viz I built for one of the Bush / K
 
 I've started asking online to find a good source of timestamped data for this project.
 
+- [NBC YouTube Subtitles Transcript](https://youtu.be/5cathmZFeXs?t=3823) - https://youtu.be/5cathmZFeXs?t=3823
+- [Otter.ai](Otter.ai) - 
+- [The Commission on Presidential Debates](https://www.debates.org/voter-education/debate-transcripts/) - https://www.debates.org/voter-education/debate-transcripts/
+- [Opal Transcription Services](https://www.opaltranscriptionservices.com/debate-transcripts/) - https://www.opaltranscriptionservices.com/debate-transcripts/
+- [Concord Monitor](https://www.concordmonitor.com/First-presidential-debate-Trump-Biden-full-transcript-36532544) - https://www.concordmonitor.com/First-presidential-debate-Trump-Biden-full-transcript-36532544
+
 ## TODO
 
 - [ ] post links to Kerry Bush debate project and images
@@ -30,6 +36,9 @@ I've started asking online to find a good source of timestamped data for this pr
   - Python/Pandas, Processing, P5.js, D3.js
 - [ ] define minimum viable first version and use dummy data
 - [ ] add example of data format to data sources section above.
+- [ ] What is the data model here? What is the representation model?
+  - Speaker class and subclasses for each speaker and then instances for each time someone speaks? Seems overwrought. Simpler the better at first. 
+  - Lets keep it to each speaker having a text area, colour and width of text dependent on how much each person speaks. Simple left/right/centre layout with red/blue/grey for each person.
 
 ## Contributors
 

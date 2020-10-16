@@ -1,3 +1,4 @@
 Presidential_Debates.code-workspace
 .DS_Store
 node_modules
+.vscode/

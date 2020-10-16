@@ -24,6 +24,7 @@ I've started asking online to find a good source of timestamped data for this pr
 - [The Commission on Presidential Debates](https://www.debates.org/voter-education/debate-transcripts/) - https://www.debates.org/voter-education/debate-transcripts/
 - [Opal Transcription Services](https://www.opaltranscriptionservices.com/debate-transcripts/) - https://www.opaltranscriptionservices.com/debate-transcripts/
 - [Concord Monitor](https://www.concordmonitor.com/First-presidential-debate-Trump-Biden-full-transcript-36532544) - https://www.concordmonitor.com/First-presidential-debate-Trump-Biden-full-transcript-36532544
+- [Rev Transcription Services](https://www.rev.com/blog/transcripts/donald-trump-joe-biden-1st-presidential-debate-transcript-2020) - https://www.rev.com/blog/transcripts/donald-trump-joe-biden-1st-presidential-debate-transcript-2020
 
 ## TODO
 

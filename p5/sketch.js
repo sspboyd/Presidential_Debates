@@ -45,22 +45,31 @@ const s = (p55) => {
   };
 
   const transcript_entry = {
-    init: function () {
-      // maybe call to calculate initial values for things?
-      // set w, h, curr_loc, clr?
-    },
-    update: function () {
-      console.log("I'm an update function!");
-    },
-    render: function () {
-      console.log("I'm the render function");
-    },
     curr_loc: p55.createVector(),
     prev_loc: p55.createVector(),
     h: lineH,
     w: 0,
     full_name: "",
     name: "",
+    clr: "",
+
+    init: function () {
+      // maybe call to calculate initial values for things?
+      // set w, h, curr_loc, clr?
+    },
+    update: function () {
+      console.log("I'm an update function!");
+      this.clr = speakers[this.full_name].clr;
+    },
+    render: function () {
+      console.log("I'm the render function");
+      p55.push();
+      p55.translate(this.curr_loc.x, lineH * i);
+      // p55.fill(speaker_clr);
+      p55.fill(this.clr);
+      p55.rect(0, 0, this.w, this.h - 4, this.h / 3)
+      p55.pop();
+    },
   };
 
   const create_transcript_entry = t => {
@@ -104,7 +113,7 @@ const s = (p55) => {
       let cto = transcript_entries[i]; //cto = current transcription object
       cto.w = p55.map(cto.word_count, 0, 199, 0, p55.width / 2);
       console.log(`${i}, ${cto.name}`);
-      let speaker_clr = speakers[cto.full_name].clr;
+      
       cto.h = lineH*1;
 
       if (cto.name === "Trump") {
@@ -119,11 +128,9 @@ const s = (p55) => {
 
 
       // Render functions
-      p55.push();
-      p55.translate(cto.curr_loc.x, lineH * i);
-      p55.fill(speaker_clr);
-      p55.rect(0, 0, cto.w, cto.h - 4, cto.h / 3)
-      p55.pop();
+      cto.update();
+      cto.render();
+
 
     }
     // render graph

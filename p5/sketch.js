@@ -37,7 +37,7 @@ const titles = {
 const s = (p55) => {
 
   let transcript_data;
-  let lineH = 7;
+  let lineH = 18;
 
   p55.preload = () => {
     let url = '../newTranscript.json';
@@ -73,7 +73,7 @@ const s = (p55) => {
 
 
   p55.setup = () => {
-    p55.createCanvas(1000, 10000);
+    p55.createCanvas(1300, 9050);
     p55.background(255);
     p55.noLoop();
     // console.trace(transcript_data)
@@ -97,11 +97,15 @@ const s = (p55) => {
 
   p55.draw = () => {
     // update transcription line objs
+    // p55.push();
+    // p55.translate(p55.width/2, p55.height/2);
+    // p55.rotate(-p55.HALF_PI);
     for (i in transcript_entries) {
       let cto = transcript_entries[i]; //cto = current transcription object
       cto.w = p55.map(cto.word_count, 0, 199, 0, p55.width / 2);
       console.log(`${i}, ${cto.name}`);
       let speaker_clr = speakers[cto.full_name].clr;
+      cto.h = lineH*1;
 
       if (cto.name === "Trump") {
         cto.curr_loc.x = p55.width / 2;
@@ -118,7 +122,7 @@ const s = (p55) => {
       p55.push();
       p55.translate(cto.curr_loc.x, lineH * i);
       p55.fill(speaker_clr);
-      p55.rect(0, 0, cto.w, cto.h - 1, cto.h / 3)
+      p55.rect(0, 0, cto.w, cto.h - 4, cto.h / 3)
       p55.pop();
 
     }
@@ -126,6 +130,7 @@ const s = (p55) => {
     // render titles
 
   };
+  // p55.pop();
 };
 
 let myp5 = new p5(s);

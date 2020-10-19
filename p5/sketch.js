@@ -36,8 +36,10 @@ const titles = {
 
 const s = (p55) => {
 
-  let transcript_data;
+  let transcript_data; // holds the json data
   let lineH = 18;
+  let transcript_entries = []; // holds the objects for each line of the transcript
+
 
   p55.preload = () => {
     let url = '../newTranscript.json';
@@ -57,15 +59,26 @@ const s = (p55) => {
       // maybe call to calculate initial values for things?
       // set w, h, curr_loc, clr?
     },
+
     update: function () {
-      console.log("I'm an update function!");
-      this.clr = speakers[this.full_name].clr;
+      this.w = p55.map(this.word_count, 0, 199, 0, p55.width / 2);
+      this.h = lineH * 1;
+
+      if (this.name === "Trump") {
+        this.curr_loc.x = p55.width / 2;
+      } else if (this.name === "Biden") {
+        this.curr_loc.x = p55.width / 2;
+        this.w = this.w * -1;
+      } else if (this.name === "Wallace") {
+        this.curr_loc.x = p55.width / 2 - (this.w / 2);
+      }
+      this.curr_loc.y = 0;
     },
+    
     render: function () {
-      console.log("I'm the render function");
       p55.push();
       p55.translate(this.curr_loc.x, lineH * i);
-      // p55.fill(speaker_clr);
+      p55.noStroke();
       p55.fill(this.clr);
       p55.rect(0, 0, this.w, this.h - 4, this.h / 3)
       p55.pop();
@@ -77,16 +90,10 @@ const s = (p55) => {
     return entry;
   };
 
-  let transcript_entries = [];
-
-
-
   p55.setup = () => {
     p55.createCanvas(1300, 9050);
     p55.background(255);
     p55.noLoop();
-    // console.trace(transcript_data)
-    p55.noStroke();
 
     // generate an array of objects for each line in the transcript
     for (i in transcript_data) {
@@ -98,40 +105,16 @@ const s = (p55) => {
       nto.timestamp = new Date(cl.time_stamp);
       nto.text = cl.text;
       nto.word_count = cl.word_count;
+      nto.clr = speakers[cl.full_name].clr;
 
       transcript_entries.push(nto);
     };
-    // console.table(transcript_entries);
   };
 
   p55.draw = () => {
-    // update transcription line objs
-    // p55.push();
-    // p55.translate(p55.width/2, p55.height/2);
-    // p55.rotate(-p55.HALF_PI);
     for (i in transcript_entries) {
-      let cto = transcript_entries[i]; //cto = current transcription object
-      cto.w = p55.map(cto.word_count, 0, 199, 0, p55.width / 2);
-      console.log(`${i}, ${cto.name}`);
-      
-      cto.h = lineH*1;
-
-      if (cto.name === "Trump") {
-        cto.curr_loc.x = p55.width / 2;
-      } else if (cto.name === "Biden") {
-        cto.curr_loc.x = p55.width / 2;
-        cto.w = cto.w * -1;
-      } else if (cto.name === "Wallace") {
-        cto.curr_loc.x = p55.width / 2 - (cto.w / 2);
-      }
-      cto.curr_loc.y = 0;
-
-
-      // Render functions
-      cto.update();
-      cto.render();
-
-
+      transcript_entries[i].update();
+      transcript_entries[i].render();
     }
     // render graph
     // render titles

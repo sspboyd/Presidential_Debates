@@ -35,11 +35,21 @@ const titles = {
 }
 
 const s = (p55) => {
-
+  let c; // declaring the canvas var here so it can be used later in saveCanvas() func
   let transcript_data; // holds the json data
   let lineH = 18;
   let transcript_entries = []; // holds the objects for each line of the transcript
 
+  let exportImg = function(){
+    let sketchName = "2020_Presidental_Debates-";
+    // generate date string like this YYYY-MM-DD-HH-MM-SS
+    let dt = new Date();
+    let datetime = `${dt.getFullYear().toString()}${(dt.getMonth()+1).toString()}${dt.getDate().toString()}${dt.getHours().toString()}${dt.getMinutes().toString()}${dt.getSeconds().toString()}`;
+    let filename = sketchName + datetime;
+    console.log(`saving canvas to: ${filename}`);
+    p55.saveCanvas(c, filename, 'png');
+
+  }
 
   p55.preload = () => {
     let url = '../newTranscript.json';
@@ -91,7 +101,7 @@ const s = (p55) => {
   };
 
   p55.setup = () => {
-    p55.createCanvas(1300, 9050);
+    c = p55.createCanvas(1300, 9050);
     p55.background(255);
     p55.noLoop();
 
@@ -118,6 +128,8 @@ const s = (p55) => {
     }
     // render graph
     // render titles
+    exportImg();
+
 
   };
   // p55.pop();

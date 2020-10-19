@@ -6,7 +6,7 @@ const speakers = {
   "President Donald J. Trump": {
     full_name: "President Donald J. Trump",
     name: "Trump",
-    clr: "#E91D0E",
+    clr: "#E91D0EAA",
     dir: -1,
     orig_X: 500
   },
@@ -21,7 +21,7 @@ const speakers = {
   "Vice President Joe Biden": {
     full_name: "Vice President Joe Biden",
     name: "Biden",
-    clr: "#232066",
+    clr: "#232066AA",
     dir: 1,
     orig_X: 0
   }
@@ -48,6 +48,12 @@ const s = (p55) => {
   let canvasH = 600;
   let canvasW = 1100;
 
+  const time_axis = function (t){
+    const debate_start_time = new Date(2020, 8, 29, 21, 0);
+    const debate_end_time = new Date(2020, 8, 29, 22, 36);
+    return p55.map(t,  debate_start_time.getTime(), debate_end_time.getTime(),  0, canvasW);
+  }
+
 
   const transcript_entry = {
     curr_loc: p55.createVector(),
@@ -64,7 +70,7 @@ const s = (p55) => {
     },
 
     update: function () {
-      this.w = te_bar_w * 1; // transcript entry bar width
+      this.w = te_bar_w * PHI; // transcript entry bar width
       this.h = p55.map(this.word_count, 0, 220, 0, p55.height / 2);
 
       if (this.name === "Trump") {
@@ -75,18 +81,16 @@ const s = (p55) => {
       } else if (this.name === "Wallace") {
         this.curr_loc.y = (p55.height / 2) - (this.h / 2);
       }
-      // this.curr_loc.x = map(curr_loc.timestamp);
+
+      this.curr_loc.x = time_axis(this.timestamp.getTime());
     },
     
     render: function () {
       p55.push();
-      // console.log(`i is ${i}`);
-      p55.translate(te_bar_w * i, this.curr_loc.y) // transcript entry bar width;
+      p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
       p55.stroke(this.clr);
       p55.strokeWeight(this.w/(PHI));
       p55.line(0,0,0,this.h);
-      // p55.fill(this.clr);
-      // p55.rect(0, 0, this.w, this.h)
       p55.pop();
     },
   };

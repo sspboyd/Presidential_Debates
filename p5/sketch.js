@@ -48,7 +48,12 @@ const s = (p55) => {
     let filename = sketchName + datetime;
     console.log(`saving canvas to: ${filename}`);
     p55.saveCanvas(c, filename, 'png');
+  }
 
+  p55.keyTyped = () => {
+    if(p55.key === 'S'){
+      exportImg();
+    }
   }
 
   p55.preload = () => {
@@ -103,7 +108,6 @@ const s = (p55) => {
   p55.setup = () => {
     c = p55.createCanvas(1300, 9050);
     p55.background(255);
-    p55.noLoop();
 
     // generate an array of objects for each line in the transcript
     for (i in transcript_data) {
@@ -128,11 +132,7 @@ const s = (p55) => {
     }
     // render graph
     // render titles
-    exportImg();
-
-
   };
-  // p55.pop();
 };
 
 let myp5 = new p5(s);

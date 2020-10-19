@@ -54,6 +54,11 @@ const s = (p55) => {
     return p55.map(t,  debate_start_time.getTime(), debate_end_time.getTime(),  0, canvasW);
   }
 
+  const index_scale = function (i){
+    const max_entry_idx = Object.keys(transcript_entries).length;
+    return p55.map(i,  0, max_entry_idx,  0, canvasW);
+  }
+
 
   const transcript_entry = {
     curr_loc: p55.createVector(),

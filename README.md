@@ -13,8 +13,27 @@ The visualization is built using [P5.js](https://p5js.org/). And as of today (Tu
 
 Further questions to be asked are how does this debate campare to previous debates and possibly future debates between Trump and Biden?
 
---- 
-#### My Initial Notes from October 1st, 2020
+## Features to Add or Explore
+- Implement explorable text interface. Rollover states for each bar such that you can scrub the timeline and see what is being said at each moment. 
+- Different rendering for each transcript line. Look at using squares where the area is proportional to the number of words spoken. Maybe cirlces? 
+- Try out adjusting vertical location of axis based on end point of person who last spoke? Might be a way to see the interuption patterns move up and down? Hard to tell how this would work or look. 
+- Add annotations
+  - Length of line matches number of words spoken. Red is Trump, Blue is Biden, Grey is Wallace. 
+  - Add 15 min time markers
+  - Maybe add in where Wallace attempted to have candidates address specific questions, eg Supreme Court, Covid, etc...
+- Create landing page
+
+
+## Contributors
+
+Stephen Boyd 
+- http://sspboyd.ca/
+- Twitter, Instagram, GitHub are all @sspboyd
+
+---
+---
+
+## Initial Notes from October 1st, 2020
 
 I'd like to build a quick sketch looking at the flow of conversation for the first 2020 Presidental Debate. The term 'debate' should be used lightly here to describe what that was. 
 
@@ -38,16 +57,6 @@ I've started asking online to find a good source of timestamped data for this pr
 - [Concord Monitor](https://www.concordmonitor.com/First-presidential-debate-Trump-Biden-full-transcript-36532544) - https://www.concordmonitor.com/First-presidential-debate-Trump-Biden-full-transcript-36532544
 - [Rev Transcription Services](https://www.rev.com/blog/transcripts/donald-trump-joe-biden-1st-presidential-debate-transcript-2020) - https://www.rev.com/blog/transcripts/donald-trump-joe-biden-1st-presidential-debate-transcript-2020
 
-## Features to Add or Explore
-- Implement explorable text interface. Rollover states for each bar such that you can scrub the timeline and see what is being said at each moment. 
-- Different rendering for each transcript line. Look at using squares where the area is proportional to the number of words spoken. Maybe cirlces? 
-- Try out adjusting vertical location of axis based on end point of person who last spoke? Might be a way to see the interuption patterns move up and down? Hard to tell how this would work or look. 
-- Add annotations
-  - Length of line matches number of words spoken. Red is Trump, Blue is Biden, Grey is Wallace. 
-  - Add 15 min time markers
-  - Maybe add in where Wallace attempted to have candidates address specific questions, eg Supreme Court, Covid, etc...
-- Create landing page
-
 ## TODO
 
 - [x] post links to Kerry Bush debate project and images
@@ -61,9 +70,3 @@ I've started asking online to find a good source of timestamped data for this pr
 - [x] What is the data model here? What is the representation model?
   - Speaker class and subclasses for each speaker and then instances for each time someone speaks? Seems overwrought. Simpler the better at first. 
   - Lets keep it to each speaker having a text area, colour and width of text dependent on how much each person speaks. Simple left/right/centre layout with red/blue/grey for each person.
-
-## Contributors
-
-Stephen Boyd 
-- http://sspboyd.ca/
-- Twitter, Instagram, GitHub are all @sspboyd

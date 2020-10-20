@@ -36,9 +36,11 @@ const titles = {
 }
 
 const s = (p55) => {
+  let copy_font;
   p55.preload = () => {
     let url = '../newTranscript.json';
     transcript_data = p55.loadJSON(url);
+    copy_font = p55.loadFont('assets/fonts/Georgia.ttf');
   };
 
   let c; // declaring the canvas var here so it can be used later in saveCanvas() func
@@ -98,13 +100,7 @@ const s = (p55) => {
       p55.fill(this.clr);
       p55.stroke(this.clr);
       // p55.noStroke();
-      // p55.ellipse(0, this.h/2, this.w/3, this.h/3);
-      p55.push();
-      p55.translate(0, this.h / 2);
-      p55.rectMode(p55.CENTER);
-      p55.rotate(p55.map(p55.mouseX, 0, p55.width, 0, p55.TWO_PI));
-      p55.rect(0, 0, this.w / 3, this.h / 3);
-      p55.pop()
+      p55.ellipse(0, this.h/2, this.w/3, this.h/3);
       p55.line(0, 0, 0, this.h / 3);
       p55.pop();
     },

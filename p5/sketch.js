@@ -6,14 +6,14 @@ const speakers = {
   "President Donald J. Trump": {
     full_name: "President Donald J. Trump",
     name: "Trump",
-    clr: "#E91D0E76",
+    clr: "#E91D0E",
     dir: -1,
     orig_X: 500
   },
   "Chris Wallace": {
     full_name: "Chris Wallace",
     name: "Wallace",
-    clr: "#8883",
+    clr: "#888",
     dir: 0,
     orig_X: 250
 
@@ -21,7 +21,7 @@ const speakers = {
   "Vice President Joe Biden": {
     full_name: "Vice President Joe Biden",
     name: "Biden",
-    clr: "#23206676",
+    clr: "#232066",
     dir: 1,
     orig_X: 0
   }
@@ -47,8 +47,8 @@ const s = (p55) => {
   let transcript_data; // holds the json data
   let te_bar_w; // transcript entry bar width - don't much like this var name
   let transcript_entries = []; // holds the objects for each line of the transcript
-  let canvasH = 500;
-  let canvasW = 1100;
+  let canvasW = p55.windowWidth;
+  let canvasH = p55.windowHeight;
 
   const time_axis = function (t) {
     const debate_start_time = new Date(2020, 8, 29, 21, 0);
@@ -63,13 +63,6 @@ const s = (p55) => {
 
 
   const transcript_entry = {
-    curr_loc: p55.createVector(),
-    prev_loc: p55.createVector(),
-    h: 0,
-    w: te_bar_w,
-    full_name: "",
-    name: "",
-    clr: "",
 
     init: function () {
       // maybe call to calculate initial values for things?
@@ -92,17 +85,51 @@ const s = (p55) => {
       }
 
       this.curr_loc.x = time_axis(this.timestamp.getTime());
+
+      // check mouse loc for hover
+      // let horz_check = Math.abs(this.curr_loc.x - p55.mouseX) < 2;
+      // let vert_check = p55.mouseY > 0 && p55.mouseY < p55.height;
+      // if(horz_check && vert_check){
+      let mouse_dist = this.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY));
+      if (mouse_dist < 5) {
+        this.hover = true;
+      } else {
+        this.hover = false;
+      }
+
+      // set alpha for clr
+      if (this.hover) {
+        this.clr.setAlpha(199);
+      } else {
+        this.clr.setAlpha(76)
+      }
     },
 
     render: function () {
       p55.push();
       p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
+      // render circles/lines for each entry
       p55.fill(this.clr);
       p55.stroke(this.clr);
-      // p55.noStroke();
-      p55.ellipse(0, this.h/2, this.w/3, this.h/3);
+      p55.ellipse(0, this.h / 2, this.w / 3, this.h / 3);
       p55.line(0, 0, 0, this.h / 3);
       p55.pop();
+    },
+
+    render_text: function () {
+      // render text if necessary
+      if (this.hover) {
+        p55.push();
+        p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
+        p55.fill(255,47);
+        p55.noStroke();
+        p55.rect(0, this.h, Math.min(400, p55.width - this.curr_loc.x), 47, 11);
+        p55.fill(0);
+        p55.textFont(copy_font);
+        p55.textSize(14);
+        p55.text(`${this.name}:    ${this.text}`, 0, this.h, Math.min(400, p55.width - this.curr_loc.x), 50);
+        p55.pop();
+      }
     },
   };
 
@@ -120,12 +147,16 @@ const s = (p55) => {
       let cl = transcript_data[i]; // cl = current line in transcript_data
       let nto = create_transcript_entry(transcript_entry); // nto = new transcription object
 
+      nto.curr_loc = p55.createVector();
+      nto.h = 0;
+      nto.w = te_bar_w;
+      nto.hover = false;
       nto.full_name = cl.full_name;
       nto.name = cl.name;
       nto.timestamp = new Date(cl.time_stamp);
       nto.text = cl.text;
       nto.word_count = cl.word_count;
-      nto.clr = speakers[cl.full_name].clr;
+      nto.clr = p55.color(speakers[cl.full_name].clr);
 
       transcript_entries.push(nto);
     };
@@ -138,8 +169,16 @@ const s = (p55) => {
       transcript_entries[i].update();
       transcript_entries[i].render();
     }
+    for (i in transcript_entries) { // super not great doing this twice!! But I want the text on top of the circles and lines so...
+      transcript_entries[i].render_text();
+    }
     // render graph
     // render titles
+
+    // render axis
+    p55.strokeWeight(.25);
+    p55.fill(0);
+    p55.line(0, p55.height / 2, p55.width, p55.height / 2);
   };
 
   let exportImg = function () {

@@ -141,10 +141,10 @@ const s = (p55) => {
   };
 
   let exportImg = function(){
-    let sketchName = "2020_Presidental_Debates-";
+    let sketchName = "2020_Presidential_Debates-";
     // generate date string like this YYYY-MM-DD-HH-MM-SS
     let dt = new Date();
-    let datetime = `${dt.getFullYear().toString()}${(dt.getMonth()+1).toString()}${dt.getDate().toString()}${dt.getHours().toString()}${dt.getMinutes().toString()}${dt.getSeconds().toString()}`;
+    let datetime = `${dt.getFullYear().toString()}${(dt.getMonth()+1).toString().padStart(2,'0')}${dt.getDate().toString().padStart(2,'0')}${dt.getHours().toString().padStart(2,'0')}${dt.getMinutes().toString().padStart(2,'0')}${dt.getSeconds().toString().padStart(2,'0')}`;
     let filename = sketchName + datetime;
     console.log(`saving canvas to: ${filename}`);
     p55.saveCanvas(c, filename, 'png');

@@ -45,7 +45,8 @@ const s = (p55) => {
   let transcript_data; // holds the json data
   let te_bar_w; // transcript entry bar width
   let transcript_entries = []; // holds the objects for each line of the transcript
-  let canvasH = 600;
+  let canvasH = 900;
+  // let canvasW = 1100;
   let canvasW = 1100;
 
   const time_axis = function (t){
@@ -75,8 +76,10 @@ const s = (p55) => {
     },
 
     update: function () {
-      this.w = te_bar_w * PHI; // transcript entry bar width
-      this.h = p55.map(this.word_count, 0, 220, 0, p55.height / 2);
+      let word_count_sqr = Math.sqrt(this.word_count);
+      let max_sqr = Math.sqrt(199);
+      this.w = p55.map(word_count_sqr, 0, max_sqr, 0, p55.height / 2);
+      this.h = this.w;
 
       if (this.name === "Trump") {
         this.curr_loc.y = p55.height / 2;
@@ -93,9 +96,9 @@ const s = (p55) => {
     render: function () {
       p55.push();
       p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
-      p55.stroke(this.clr);
-      p55.strokeWeight(this.w/(PHI));
-      p55.line(0,0,0,this.h);
+      p55.fill(this.clr);
+      p55.noStroke();
+      p55.rect(0,0,this.w,this.h);
       p55.pop();
     },
   };
@@ -107,7 +110,7 @@ const s = (p55) => {
 
   p55.setup = () => {
     c = p55.createCanvas(canvasW, canvasH);
-    te_bar_w = canvasW/Object.keys(transcript_data).length;
+    te_bar_w = canvasW/Object.keys(transcript_data).length; // not sure if there is a better way to set this. Also, don't like this var name...
 
     // generate an array of objects for each line in the transcript
     for (i in transcript_data) {

@@ -6,14 +6,14 @@ const speakers = {
   "President Donald J. Trump": {
     full_name: "President Donald J. Trump",
     name: "Trump",
-    clr: "#E91D0EAA",
+    clr: "#E91D0E76",
     dir: -1,
     orig_X: 500
   },
   "Chris Wallace": {
     full_name: "Chris Wallace",
     name: "Wallace",
-    clr: "#AAA",
+    clr: "#8883",
     dir: 0,
     orig_X: 250
 
@@ -21,7 +21,7 @@ const speakers = {
   "Vice President Joe Biden": {
     full_name: "Vice President Joe Biden",
     name: "Biden",
-    clr: "#232066AA",
+    clr: "#23206676",
     dir: 1,
     orig_X: 0
   }
@@ -45,8 +45,7 @@ const s = (p55) => {
   let transcript_data; // holds the json data
   let te_bar_w; // transcript entry bar width
   let transcript_entries = []; // holds the objects for each line of the transcript
-  let canvasH = 900;
-  // let canvasW = 1100;
+  let canvasH = 500;
   let canvasW = 1100;
 
   const time_axis = function (t){
@@ -97,8 +96,10 @@ const s = (p55) => {
       p55.push();
       p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
       p55.fill(this.clr);
-      p55.noStroke();
-      p55.rect(0,0,this.w,this.h);
+      p55.stroke(255,76);
+      // p55.noStroke();
+      p55.ellipse(0, this.h/2, this.w/3, this.h/3);
+      p55.line(0,0,0, this.h/3);
       p55.pop();
     },
   };

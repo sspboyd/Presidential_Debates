@@ -2,6 +2,8 @@
 
 > Visualizing the flow, duration and cross-talk from the first 2020 Presidental Debate
 
+![Visualizing Debate](https://raw.githubusercontent.com/sspboyd/Presidential_Debates/master/output/2020_Presidental_Debates-20201019161710.png)
+
 On September 29, 2020, the US held their first presidential debate between President Trump and former Vice President Biden. The debate immediately became known not for what was said or policies debated but for the interuptions and complete lack of decorum. One anchor called it a "Shitshow" and to quote an anchor from CNN:
 >  "That was a hot mess inside a dumpster fire inside a train wreck. That was the worst debate I have ever seen. It wasn't even a debate. It was a disgrace. And it's primarily because of President Trump, who spent the entire time interrupting not abiding by the rules he agreed to."
 

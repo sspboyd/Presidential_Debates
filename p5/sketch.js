@@ -1,6 +1,6 @@
 // quick outline of a way to view the interuptions in the first (and
 // now maybe only) Presidential debate.
-const PHI = (Math.sqrt(5)+1)/2;
+const PHI = (Math.sqrt(5) + 1) / 2;
 
 const speakers = {
   "President Donald J. Trump": {
@@ -43,20 +43,20 @@ const s = (p55) => {
 
   let c; // declaring the canvas var here so it can be used later in saveCanvas() func
   let transcript_data; // holds the json data
-  let te_bar_w; // transcript entry bar width
+  let te_bar_w; // transcript entry bar width - don't much like this var name
   let transcript_entries = []; // holds the objects for each line of the transcript
   let canvasH = 500;
   let canvasW = 1100;
 
-  const time_axis = function (t){
+  const time_axis = function (t) {
     const debate_start_time = new Date(2020, 8, 29, 21, 0);
     const debate_end_time = new Date(2020, 8, 29, 22, 36);
-    return p55.map(t,  debate_start_time.getTime(), debate_end_time.getTime(),  0, canvasW);
+    return p55.map(t, debate_start_time.getTime(), debate_end_time.getTime(), 0, canvasW);
   }
 
-  const index_scale = function (i){
+  const index_scale = function (i) {
     const max_entry_idx = Object.keys(transcript_entries).length;
-    return p55.map(i,  0, max_entry_idx,  0, canvasW);
+    return p55.map(i, 0, max_entry_idx, 0, canvasW);
   }
 
 
@@ -91,15 +91,21 @@ const s = (p55) => {
 
       this.curr_loc.x = time_axis(this.timestamp.getTime());
     },
-    
+
     render: function () {
       p55.push();
       p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
       p55.fill(this.clr);
-      p55.stroke(255,76);
+      p55.stroke(this.clr);
       // p55.noStroke();
-      p55.ellipse(0, this.h/2, this.w/3, this.h/3);
-      p55.line(0,0,0, this.h/3);
+      // p55.ellipse(0, this.h/2, this.w/3, this.h/3);
+      p55.push();
+      p55.translate(0, this.h / 2);
+      p55.rectMode(p55.CENTER);
+      p55.rotate(p55.map(p55.mouseX, 0, p55.width, 0, p55.TWO_PI));
+      p55.rect(0, 0, this.w / 3, this.h / 3);
+      p55.pop()
+      p55.line(0, 0, 0, this.h / 3);
       p55.pop();
     },
   };
@@ -111,7 +117,7 @@ const s = (p55) => {
 
   p55.setup = () => {
     c = p55.createCanvas(canvasW, canvasH);
-    te_bar_w = canvasW/Object.keys(transcript_data).length; // not sure if there is a better way to set this. Also, don't like this var name...
+    te_bar_w = canvasW / Object.keys(transcript_data).length; // not sure if there is a better way to set this. Also, don't like this var name...
 
     // generate an array of objects for each line in the transcript
     for (i in transcript_data) {
@@ -132,7 +138,7 @@ const s = (p55) => {
   p55.draw = () => {
     p55.background(255);
 
-    for ( i in transcript_entries) {
+    for (i in transcript_entries) {
       transcript_entries[i].update();
       transcript_entries[i].render();
     }
@@ -140,7 +146,7 @@ const s = (p55) => {
     // render titles
   };
 
-  let exportImg = function(){
+  let exportImg = function () {
     let sketchName = "2020_Presidential_Debates-";
     // generate date string like this YYYY-MM-DD-HH-MM-SS
     let dt = new Date();
@@ -151,7 +157,7 @@ const s = (p55) => {
   };
 
   p55.keyTyped = () => {
-    if(p55.key === 'S'){
+    if (p55.key === 'S') {
       exportImg();
     }
   };

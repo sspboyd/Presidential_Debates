@@ -1,14 +1,67 @@
-<!DOCTYPE html><html lang="en"><head>
-    <!-- <script src="p5.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js" integrity="sha512-WIklPM6qPCIp6d3fSSr90j+1unQHUOoWDS4sdTiR8gxUTnyZ8S2Mr8e10sKKJ/bhJgpAa/qG068RDkg6fIlNFA==" crossorigin="anonymous"></script>
-    <!-- <script src="p5.sound.min.js"></script> -->
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <meta charset="utf-8">
+<!DOCTYPE html>
+<html lang="en">
 
-  </head>
-  <body>
-    <h1>Prototyping Debate layouts.</h1>
-    <script src="sketch.js"></script>
-  
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+  <!-- <script src="p5.js"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"
+    integrity="sha512-WIklPM6qPCIp6d3fSSr90j+1unQHUOoWDS4sdTiR8gxUTnyZ8S2Mr8e10sKKJ/bhJgpAa/qG068RDkg6fIlNFA=="
+    crossorigin="anonymous"></script>
+  <!-- <script src="p5.sound.min.js"></script> -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8">
 
-</body></html>
+</head>
+
+<body>
+  <div id="header"><p><a href="/index.html">sspboyd.ca</a> // <a href="/blog/">blog</a> // <a href="https://github.com/sspboyd/Presidential_Debates">github</a> // <a href="https://www.instagram.com/sspboyd/">instagram</a> // <a href="https://twitter.com/sspboyd">twitter</a> // <a href="/blog/hello/">contact</a></p></div>
+  <div id="title">
+    <h1>The First US Presidential Debate of 2020</h1>
+    <h2>Visualizing the flow, duration and cross-talk from the first 2020 Presidential Debate</h2>
+    <p>By Stephen Boyd. Updated Oct 21, 2020.</p>
+  </div>
+  <div id="debate_viz"></div>
+  <script src="sketch.js"></script>
+  <div id="description">
+    <h2>Project Description:</h2>
+    <p>On September 29, 2020, the US held their first presidential debate between President Trump and former Vice
+      President Biden. The debate immediately became known not for what was said or policies debated but for the
+      interuptions and complete lack of decorum. One anchor called it a &quot;shitshow&quot; and to quote an anchor from
+      CNN:
+</p>
+    <blockquote>
+      <p>&quot;That was a hot mess inside a dumpster fire inside a train wreck. That was the worst debate I have ever
+        seen. It wasn't even a debate. It was a disgrace. And it's primarily because of President Trump, who spent the
+        entire time interrupting not abiding by the rules he agreed to.&quot;</p>
+    </blockquote>
+    <p>So what does this debate look like when visualized? Are all of these interruptions visible? Is it possible to
+      tell who is interrupting the most?</p>
+    <p>To test out this idea, I am using a transcript from <a
+        href="https://www.rev.com/blog/transcripts/donald-trump-joe-biden-1st-presidential-debate-transcript-2020">Rev
+        Transcription Services</a>. I have processed the data to include the times when each person speaks. You can find
+      the ways I adjusted the data in the data_munging.js file.</p>
+    <p>The visualization is built using <a href="https://p5js.org/">P5.js</a>. And as of today (Tuesday, Oct 20, 2020),
+      the visualization is still being adjusted and tweaked.</p>
+    <p>Further questions to be asked are how does this debate compare to previous debates and possibly future debates
+      between Trump and Biden?</p>
+  </div>
+  <p><img
+      src="https://raw.githubusercontent.com/sspboyd/Presidential_Debates/master/output/2020_Presidental_Debates-20201019161710.png"
+      alt="Visualizing Debate"></p>
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22771087-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+      
+        gtag('config', 'UA-22771087-1');
+      </script>    </body>
+
+</html>

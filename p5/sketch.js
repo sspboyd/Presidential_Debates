@@ -70,8 +70,8 @@ const s = (p55) => {
     },
 
     update: function () {
-      let word_count_sqr = Math.sqrt(this.word_count);
-      let max_sqr = Math.sqrt(199);
+      let word_count_sqr = Math.sqrt(this.word_count); // this doesn't change and could go to the obj instantiaion spot in setup()
+      let max_sqr = Math.sqrt(199); // still need to break this out into a separate calculation
       this.w = p55.map(word_count_sqr, 0, max_sqr, 0, p55.height / 2);
       this.h = this.w;
 
@@ -90,8 +90,9 @@ const s = (p55) => {
       // let horz_check = Math.abs(this.curr_loc.x - p55.mouseX) < 2;
       // let vert_check = p55.mouseY > 0 && p55.mouseY < p55.height;
       // if(horz_check && vert_check){
-      let mouse_dist = this.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY));
-      if (mouse_dist < 5) {
+      // let mouse_dist = this.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY));
+      let mouse_dist = Math.abs(p55.mouseX-this.curr_loc.x);
+      if (mouse_dist < 4) { // how big an area are we checking?
         this.hover = true;
       } else {
         this.hover = false;
@@ -112,6 +113,7 @@ const s = (p55) => {
       p55.fill(this.clr);
       p55.stroke(this.clr);
       p55.ellipse(0, this.h / 2, this.w / 3, this.h / 3);
+      p55.ellipse(0, this.h / 2, 3, 3);
       p55.line(0, 0, 0, this.h / 3);
       p55.pop();
     },
@@ -121,13 +123,14 @@ const s = (p55) => {
       if (this.hover) {
         p55.push();
         p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
-        p55.fill(255,47);
-        p55.noStroke();
-        p55.rect(0, this.h, Math.min(400, p55.width - this.curr_loc.x), 47, 11);
-        p55.fill(0);
+        p55.fill(255, 47);
+        p55.strokeWeight(.76);
+        p55.stroke(255, 29);
+        p55.rect(0-4, this.h-7, Math.min(600, p55.width - this.curr_loc.x), 76, 7);
+        p55.fill(0,199);
         p55.textFont(copy_font);
-        p55.textSize(14);
-        p55.text(`${this.name}:    ${this.text}`, 0, this.h, Math.min(400, p55.width - this.curr_loc.x), 50);
+        p55.textSize(18);
+        p55.text(`${this.text}`, 0, this.h, Math.min(607, p55.width - this.curr_loc.x+11), 76);
         p55.pop();
       }
     },
@@ -160,11 +163,16 @@ const s = (p55) => {
 
       transcript_entries.push(nto);
     };
+    // let result = getClosestEntry('Biden');
   };
 
   p55.draw = () => {
     p55.background(255);
+    // find objects closest to mouse for each speaker
+    set_hover();
+    //render legend
 
+    render_legend();
     for (i in transcript_entries) {
       transcript_entries[i].update();
       transcript_entries[i].render();
@@ -179,7 +187,37 @@ const s = (p55) => {
     p55.strokeWeight(.25);
     p55.fill(0);
     p55.line(0, p55.height / 2, p55.width, p55.height / 2);
+
+    // render focus area
+    p55.fill(255,29);
+    p55.stroke(255,76);
+    p55.strokeWeight(.76);
+    p55.rect(p55.mouseX-2, 0, 4, p55.height);
+
   };
+
+  let getClosestEntry = function (n) {
+    let result = transcript_entries.filter(e => e.name === n);
+    result = result.map(e => e.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY)));
+    // for the name provided...
+    // filter the transcipt_entries array by that name
+    // use map to calculate the distances to mouseX for each entry
+    // use something like `let min = Math.min(...arrayOfNumbers);` to get smallest number
+    // use array.indexOf to return that element from the array
+    return result;
+  }
+
+  let render_legend = function(){
+    p55.textFont(copy_font);
+    p55.textSize(199);
+    p55.fill(0,29);
+    p55.text("Trump", 0, p55.height/2-100);
+    p55.text("Biden", 0, p55.height-100);
+  };
+
+  let set_hover = function(){
+
+  }
 
   let exportImg = function () {
     let sketchName = "2020_Presidential_Debates-";

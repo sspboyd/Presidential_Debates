@@ -18,6 +18,7 @@ Further questions to be asked are how does this debate compare to previous debat
 
 ## Features to Add or Explore
 - Implement explorable text interface. Rollover states for each bar such that you can scrub the timeline and see what is being said at each moment. 
+- Add debate transcripts from previous elections. Or what about Lincoln Douglas Debates?
 - Different rendering for each transcript line. Look at using squares where the area is proportional to the number of words spoken. Maybe cirles? 
 - Try out adjusting vertical location of axis based on end point of person who last spoke? Might be a way to see the interruption patterns move up and down? Hard to tell how this would work or look. 
 - Add annotations

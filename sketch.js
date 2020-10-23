@@ -1,6 +1,6 @@
 // quick outline of a way to view the interuptions in the first (and
 // now maybe only) Presidential debate.
-const PHI = (Math.sqrt(5) + 1) / 2;
+const PHI = (Math.sqrt(5) + 1) / 2; // I use PHI for layout ratios
 
 const speakers = {
   "President Donald J. Trump": {
@@ -38,7 +38,7 @@ const titles = {
 const s = (p55) => {
   let copy_font;
   p55.preload = () => {
-    let url = '../newTranscript.json';
+    let url = 'data/newTranscript.json';
     transcript_data = p55.loadJSON(url);
     copy_font = p55.loadFont('assets/fonts/Georgia.ttf');
   };
@@ -47,8 +47,8 @@ const s = (p55) => {
   let transcript_data; // holds the json data
   let te_bar_w; // transcript entry bar width - don't much like this var name
   let transcript_entries = []; // holds the objects for each line of the transcript
-  let canvasW = p55.windowWidth;
-  let canvasH = p55.windowHeight;
+  let canvasW = Math.max(1100, p55.windowWidth);
+  let canvasH = 700;
 
   const time_axis = function (t) {
     const debate_start_time = new Date(2020, 8, 29, 21, 0);
@@ -81,7 +81,7 @@ const s = (p55) => {
       } else if (this.name === "Biden") {
         this.curr_loc.y = p55.height / 2;
       } else if (this.name === "Wallace") {
-        this.curr_loc.y = (p55.height / 2) - (this.h / 2);
+        this.curr_loc.y = (p55.height / 2);
       }
 
       this.curr_loc.x = time_axis(this.timestamp.getTime());
@@ -91,8 +91,8 @@ const s = (p55) => {
       // let vert_check = p55.mouseY > 0 && p55.mouseY < p55.height;
       // if(horz_check && vert_check){
       // let mouse_dist = this.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY));
-      let mouse_dist = Math.abs(p55.mouseX-this.curr_loc.x);
-      if (mouse_dist < 4) { // how big an area are we checking?
+      let mouse_dist = Math.abs(p55.mouseX - this.curr_loc.x);
+      if (mouse_dist < 3) { // how big an area are we checking?
         this.hover = true;
       } else {
         this.hover = false;
@@ -100,7 +100,7 @@ const s = (p55) => {
 
       // set alpha for clr
       if (this.hover) {
-        this.clr.setAlpha(199);
+        this.clr.setAlpha(247);
       } else {
         this.clr.setAlpha(76)
       }
@@ -108,29 +108,51 @@ const s = (p55) => {
 
     render: function () {
       p55.push();
-      p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
+      p55.translate(this.curr_loc.x, this.curr_loc.y);
       // render circles/lines for each entry
       p55.fill(this.clr);
       p55.stroke(this.clr);
-      p55.ellipse(0, this.h / 2, this.w / 3, this.h / 3);
-      p55.ellipse(0, this.h / 2, 3, 3);
-      p55.line(0, 0, 0, this.h / 3);
+      if (this.name === "Wallace") {
+        p55.ellipse(0, 0, this.w / 3, this.h / 3);
+        // p55.ellipse(0, 0, 2, 2);
+      } else {
+        p55.ellipse(0, this.h / 1.2, this.w / 3, this.h / 3); // lots of jank in here. Would do well to refactor this.
+        // p55.noStroke();
+        p55.ellipse(0, this.h / 1.2, 3, 3);
+      }
+      // p55.line(0, 0, 0, )this.h / 1.2)-(this.h/4));
       p55.pop();
     },
 
     render_text: function () {
       // render text if necessary
       if (this.hover) {
-        p55.push();
-        p55.translate(this.curr_loc.x, this.curr_loc.y) // transcript entry bar width;
-        p55.fill(255, 47);
-        p55.strokeWeight(.76);
-        p55.stroke(255, 29);
-        p55.rect(0-4, this.h-7, Math.min(600, p55.width - this.curr_loc.x), 76, 7);
-        p55.fill(0,199);
-        p55.textFont(copy_font);
+        let rect_w = 123 + 199; //521 :)
+        let rect_x = p55.map(p55.mouseX, 0, canvasW, 0, -1 * rect_w);
+        p55.textFont(copy_font); // declaring these up here so they can be used in textWidth().
         p55.textSize(18);
-        p55.text(`${this.text}`, 0, this.h, Math.min(607, p55.width - this.curr_loc.x+11), 76);
+        let bkg_width = Math.min(p55.textWidth(this.text) + 11, 600);
+        p55.push();
+        p55.translate(this.curr_loc.x, this.curr_loc.y);
+        p55.fill(255, 87);
+        p55.strokeWeight(.76);
+        p55.stroke(255, 129);
+        if (this.name === "Wallace") {
+          p55.rect(rect_x - 7, -7 - 29, rect_w, 76, 7);
+          p55.fill(0, 199);
+          p55.text(`${this.text}`, rect_x, -29, rect_w, 76);
+
+        } else if (this.name === "Trump") {
+          p55.rect(rect_x - 7, this.h - 7, rect_w, 123, 7);
+          p55.fill(0, 199);
+          p55.text(`${this.text}`, rect_x, this.h, rect_w, 123);
+
+        } else if (this.name === "Biden") {
+          p55.rect(rect_x - 7, (this.h - 7) - (this.w / 3), rect_w, 123, 7);
+          p55.fill(0, 199);
+          p55.text(`${this.text}`, rect_x, this.h - (this.w / 3), rect_w, 123);
+
+        }
         p55.pop();
       }
     },
@@ -143,6 +165,7 @@ const s = (p55) => {
 
   p55.setup = () => {
     c = p55.createCanvas(canvasW, canvasH);
+    c.parent('debate_viz');
     te_bar_w = canvasW / Object.keys(transcript_data).length; // not sure if there is a better way to set this. Also, don't like this var name...
 
     // generate an array of objects for each line in the transcript
@@ -169,7 +192,7 @@ const s = (p55) => {
   p55.draw = () => {
     p55.background(255);
     // find objects closest to mouse for each speaker
-    set_hover();
+    // set_hover();
     //render legend
 
     render_legend();
@@ -184,43 +207,51 @@ const s = (p55) => {
     // render titles
 
     // render axis
-    p55.strokeWeight(.25);
-    p55.fill(0);
-    p55.line(0, p55.height / 2, p55.width, p55.height / 2);
+    p55.strokeWeight(.5);
+    p55.stroke(255);
+    p55.line(0, p55.height / 2, canvasW, canvasH / 2);
 
     // render focus area
-    p55.fill(255,29);
-    p55.stroke(255,76);
+    p55.fill(255, 29);
+    p55.stroke(255, 76);
     p55.strokeWeight(.76);
-    p55.rect(p55.mouseX-2, 0, 4, p55.height);
+    p55.rect(p55.mouseX - 1.5, 0, 3, p55.height);
 
-  };
-
-  let getClosestEntry = function (n) {
-    let result = transcript_entries.filter(e => e.name === n);
-    result = result.map(e => e.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY)));
-    // for the name provided...
-    // filter the transcipt_entries array by that name
-    // use map to calculate the distances to mouseX for each entry
-    // use something like `let min = Math.min(...arrayOfNumbers);` to get smallest number
-    // use array.indexOf to return that element from the array
-    return result;
-  }
-
-  let render_legend = function(){
+    // render attrib watermark
     p55.textFont(copy_font);
-    p55.textSize(199);
-    p55.fill(0,29);
-    p55.text("Trump", 0, p55.height/2-100);
-    p55.text("Biden", 0, p55.height-100);
+    p55.textSize(18);
+    p55.fill(76);
+    p55.text("@sspboyd", canvasW - p55.textWidth("@sspboyd"), canvasH - 29)
+
+
   };
 
-  let set_hover = function(){
+  // let getClosestEntry = function (n) {
+  //   let result = transcript_entries.filter(e => e.name === n);
+  //   result = result.map(e => e.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY)));
+  //   // for the name provided...
+  //   // filter the transcipt_entries array by that name
+  //   // use map to calculate the distances to mouseX for each entry
+  //   // use something like `let min = Math.min(...arrayOfNumbers);` to get smallest number
+  //   // use array.indexOf to return that element from the array
+  //   return result;
+  // }
 
-  }
+  let render_legend = function () {
+    p55.textFont(copy_font);
+    p55.textSize(123);
+    p55.fill(0, 47);
+    // p55.text("Trump", canvasW/2-p55.textWidth("Trump")/2, p55.height / 2 - 100);
+    // p55.text("Biden", canvasW/2-p55.textWidth("Biden")/2, p55.height - 100);
+    p55.text("Trump", 0, 200);
+    p55.text("Biden", 0, p55.height / 2 + 200);
+    p55.textSize(29);
+    p55.fill(0, 76);
+    p55.text("Wallace", 0, (p55.height / 2) + (p55.textAscent("Wallace") / 2));
+  };
 
   let exportImg = function () {
-    let sketchName = "2020_Presidential_Debates-";
+    let sketchName = "2020_Presidential_Debates-sspboyd-";
     // generate date string like this YYYY-MM-DD-HH-MM-SS
     let dt = new Date();
     let datetime = `${dt.getFullYear().toString()}${(dt.getMonth()+1).toString().padStart(2,'0')}${dt.getDate().toString().padStart(2,'0')}${dt.getHours().toString().padStart(2,'0')}${dt.getMinutes().toString().padStart(2,'0')}${dt.getSeconds().toString().padStart(2,'0')}`;
@@ -230,7 +261,7 @@ const s = (p55) => {
   };
 
   p55.keyTyped = () => {
-    if (p55.key === 'S') {
+    if (p55.key === 'S' || p55.key === 's') {
       exportImg();
     }
   };

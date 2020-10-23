@@ -4,7 +4,6 @@
 
 ![Visualizing Debate](https://raw.githubusercontent.com/sspboyd/Presidential_Debates/master/output/2020_Presidental_Debates-20201019161710.png)
 
-On September 29, 2020, the US held their first presidential debate between President Trump and former Vice President Biden. The debate immediately became known not for what was said or policies debated but for the interuptions and complete lack of decorum. One anchor called it a "Shitshow" and to quote an anchor from CNN:
 On September 29, 2020, the US held their first presidential debate between President Trump and former Vice President Biden. The debate immediately became known not for what was said or policies debated but for the interruptions and complete lack of decorum. One anchor called it a "Shitshow" and to quote an anchor from CNN:
 >  "That was a hot mess inside a dumpster fire inside a train wreck. That was the worst debate I have ever seen. It wasn't even a debate. It was a disgrace. And it's primarily because of President Trump, who spent the entire time interrupting not abiding by the rules he agreed to."
 
@@ -12,7 +11,7 @@ So what does this debate look like when visualized? Are all of these interruptio
 
 To test out this idea, I am using a transcript from [Rev Transcription Services](https://www.rev.com/blog/transcripts/donald-trump-joe-biden-1st-presidential-debate-transcript-2020). I have processed the data to include the times when each person speaks. You can find the ways I adjusted the data in the data_munging.js file. 
 
-The visualization is built using [P5.js](https://p5js.org/). And as of today (Tuesday, Oct 20, 2020), the visualization is still being adjusted and tweaked. 
+The visualization is built using [P5.js](https://p5js.org/).
 
 Further questions to be asked are how does this debate compare to previous debates and possibly future debates between Trump and Biden?
 
@@ -31,7 +30,7 @@ Further questions to be asked are how does this debate compare to previous debat
 ## Contributors
 
 Stephen Boyd 
-- http://sspboyd.ca/
+- http://sspboyd.ca/US-Presidential-Debates/
 - Twitter, Instagram, GitHub are all @sspboyd
 
 ---

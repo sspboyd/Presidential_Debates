@@ -14,7 +14,7 @@ p {
 
 canvas {
   display: block;
-  margin: 5px;
+  margin: 5px 0;
 }
 
 h1 {
@@ -29,8 +29,8 @@ h2 {
   margin: 0 10px;
 }
 
-#description{
-  margin: 0 10%;
+#description, #gallery{
+  margin: 2em 10%;
 }
 
 #header{

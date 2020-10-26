@@ -61,7 +61,6 @@ const s = (p55) => {
     return p55.map(i, 0, max_entry_idx, 0, canvasW);
   }
 
-
   const transcript_entry = {
 
     init: function () {
@@ -92,7 +91,8 @@ const s = (p55) => {
       // if(horz_check && vert_check){
       // let mouse_dist = this.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY));
       let mouse_dist = Math.abs(p55.mouseX - this.curr_loc.x);
-      if (mouse_dist < 3) { // how big an area are we checking?
+      let inside_canvas = (p55.mouseY>0) && (p55.mouseY<canvasH);
+      if ((mouse_dist < 3) && inside_canvas) { // how big an area are we checking?
         this.hover = true;
       } else {
         this.hover = false;

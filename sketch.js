@@ -304,7 +304,7 @@ const db2 = (p55) => {
   p55.preload = () => {
     // let url = 'data/newTranscript.json';
     // let url = 'data/debate_2.json';
-    let url = 'tcpt_concat.json';
+    let url = './data/debate_2_concat.json';
     transcript_data = p55.loadJSON(url);
     copy_font = p55.loadFont('assets/fonts/Georgia.ttf');
   };

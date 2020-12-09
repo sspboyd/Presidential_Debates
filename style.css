@@ -5,11 +5,15 @@ html, body {
   /* background-color: aliceblue; */
 }
 
-p {
+p, li {
   font-family: 'Roboto', sans-serif;
   /* font-family: 'Cormorant', serif; */
   /* font-family: 'Poppins', sans-serif; */
   margin: 10px;
+  font-size: 1.16em;
+}
+#title{
+
 }
 
 canvas {
@@ -29,18 +33,29 @@ h2 {
   margin: 0 10px;
 }
 
-#description, #gallery{
-  margin: 2em 10%;
+#description, #gallery, #findings, .viz_title{
+  margin: 2em 4%;
 }
 
 #header{
   margin:0;
   padding:7px 10px;
   background-color: #EFEFEF;
-  font-size: 90%;
+  font-size: 0.8em;
   border-bottom: 1px solid #0C0C0C;
 }
 
 #header p{
   margin:0;
+}
+
+.full-screen-width {
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  max-width: 100vw;
+  width: 100vw;
+  z-index: -1;
 }

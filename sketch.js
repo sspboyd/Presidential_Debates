@@ -2,6 +2,8 @@
 // now maybe only) Presidential debate.
 const PHI = (Math.sqrt(5) + 1) / 2; // I use PHI for layout ratios
 
+const max_word_count = 387;
+
 const speakers = { 
   "President Donald J. Trump": {
     full_name: "President Donald J. Trump",
@@ -71,7 +73,8 @@ const db1 = (p55) => {
   let transcript_data; // holds the json data
   let te_bar_w; // transcript entry bar width - don't much like this var name
   let transcript_entries = []; // holds the objects for each line of the transcript
-  let canvasW = Math.max(1100, p55.windowWidth);
+  // let canvasW = Math.max(1100, p55.windowWidth);
+  let canvasW = Math.max(500, document.getElementById("debate_viz").offsetWidth);
   let canvasH = 500;
 
   const time_axis = function (t) {
@@ -94,7 +97,7 @@ const db1 = (p55) => {
 
     update: function () {
       let word_count_sqr = Math.sqrt(this.word_count); // this doesn't change and could go to the obj instantiaion spot in setup()
-      let max_sqr = Math.sqrt(199); // still need to break this out into a separate calculation
+      let max_sqr = Math.sqrt(max_word_count); // still need to break this out into a separate calculation
       this.w = p55.map(word_count_sqr, 0, max_sqr, 0, p55.height / 2);
       this.h = this.w;
 
@@ -300,7 +303,8 @@ const db2 = (p55) => {
   let copy_font;
   p55.preload = () => {
     // let url = 'data/newTranscript.json';
-    let url = 'data/debate_2.json';
+    // let url = 'data/debate_2.json';
+    let url = 'tcpt_concat.json';
     transcript_data = p55.loadJSON(url);
     copy_font = p55.loadFont('assets/fonts/Georgia.ttf');
   };
@@ -311,7 +315,8 @@ const db2 = (p55) => {
   let te_bar_w; // transcript entry bar width - don't much like this var name
   let transcript_entries = []; // holds the objects for each line of the transcript
   // let canvasW = Math.max(1100, p55.windowWidth);
-  let canvasW = Math.max(1100, p55.windowWidth);
+  // let canvasW = Math.max(1100, p55.windowWidth);
+  let canvasW = Math.max(500, document.getElementById("debate2_viz").offsetWidth);
   let canvasH = 500;
 
   const time_axis = function (t) {
@@ -335,7 +340,7 @@ const db2 = (p55) => {
     update: function () {
       let word_count_sqr = Math.sqrt(this.word_count); // this doesn't change and could go to the obj instantiaion spot in setup()
       // let max_sqr = Math.sqrt(199); // still need to break this out into a separate calculation
-      let max_sqr = Math.sqrt(258); // still need to break this out into a separate calculation
+      let max_sqr = Math.sqrt(max_word_count); // still need to break this out into a separate calculation
       this.w = p55.map(word_count_sqr, 0, max_sqr, 0, p55.height / 2);
       this.h = this.w;
 

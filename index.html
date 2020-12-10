@@ -28,11 +28,9 @@
   <div id="description">
     <div id="title">
       <h1>Visualizing the 2020 US Presidential Debates</h1>
-    </div>
-    <h2>A look at the flow, duration and cross-talk from the two debates.</h2><br />
-    <p>By <a href="https://sspboyd.ca/">Stephen Boyd</a>. <br />Updated December 8, 2020.</p>
-    <br />
-    <h2>Project Description:</h2>
+    <h2>A look at the flow, duration and cross-talk from the two debates.</h2>
+  <p>By <a href="https://sspboyd.ca/">Stephen Boyd</a>. <br />Updated December 8, 2020.</p>
+</div>
     <p>On September 29, 2020, the US held their first presidential debate between President Trump and former Vice
       President Biden. The debate immediately became known not for what was said or policies debated but for the
       interuptions and complete lack of decorum. One anchor called it a &quot;shitshow&quot; and to quote an anchor
@@ -44,39 +42,39 @@
         seen. It wasn't even a debate. It was a disgrace. And it's primarily because of President Trump, who spent the
         entire time interrupting not abiding by the rules he agreed to.&quot;</p>
     </blockquote>
-    <p><b>So what does this debate look like when visualized? Are all of these interruptions visible? Is it possible to
-        tell who is interrupting the most?</b></p>
-    <br />
-    <p>To test out this idea, I am using a transcript from <a
+    <p>The second debate took place on October 22, 2020 and it garnered a lot of interest to see if it would be the same style (disaster) as the first debate.</p>
+    <p><b>So what does this debate look like when visualized? Are all of these interruptions visible? Is it possible to tell who is interrupting the most?</b></p>
+
+    <h2>The Data and Tools used.</h2>
+    <p>To test out this idea, I am using transcripts from <a
         href="https://www.rev.com/blog/transcripts/donald-trump-joe-biden-1st-presidential-debate-transcript-2020">Rev
         Transcription Services</a>. I have processed the data to include the times when each person speaks. You can
-      find
-      the ways I adjusted the data in the <a
-        href="https://github.com/sspboyd/Presidential_Debates/blob/master/date_munging.js">data_munging.js file</a>.
-    </p>
-    <p>The visualization is built using <a href="https://p5js.org/">P5.js</a>. And as of today (Tuesday, Oct 20,
-      2020),
-      the visualization is still being adjusted and tweaked.</p>
+      find the ways I adjusted the data in the <a
+        href="https://github.com/sspboyd/Presidential_Debates/blob/master/date_munging.js">data_munging.js file</a>.</p>
+        <p>There is also <a href="https://sspboyd.ca/blog/2020/11/10/demystifying-regex-a-walk-through-on-how-to-prep-data-for-a-visualization/">a related blog post</a> about how Regex was used to pre-process the data. <br /><a href="https://sspboyd.ca/blog/2020/11/10/demystifying-regex-a-walk-through-on-how-to-prep-data-for-a-visualization/">Demystifying Regex: A Walk-through On How To Prep Data For A Visualization</a>.</p>
+    <p>The visualization is built using (the fantastic) <a href="https://p5js.org/">P5.js</a>. And as of Oct 20, 2020, the visualization is still being adjusted and tweaked.</p>
     <p>Further questions to be asked are how does this debate compare to previous debates and possibly future debates
       between Trump and Biden?</p>
-    <br />
+    
     <h2>How to read the graphs...</h2>
-    <ul>
-      <li>Each bubble represents either Joe Biden, Donald Trump or the moderator talking. The area of each bubble is
-        determined by how many words were spoken.</li>
-      <li>Roll your mouse or finger over the bubbles to view what was being said</li>
-      <li>Press "S" to export a screenshot of the visualization.</li>
-    </ul>
+    <ol>
+      <li>Each bubble represents either Joe Biden, Donald Trump or the moderator talking. </li>
+        <li>The size of each bubble is determined by how many words were spoken. Lots of words make for bigger circles.</li>
+      <li>Use your mouse or finger over the bubbles to see what was being said.</li>
+      <li>Press "S" to save a screenshot of the visualizations.</li>
+    </ol>
 
 
 
   </div>
+  <hr />
   <div id="debate_viz" class="viz_title">
     <h2>First Debate</h2>
     <p>Date: September 29, 2020
       <br />
       Moderator: Chris Wallace.</p>
   </div>
+  <hr />
   <div id="debate2_viz" class="viz_title">
     <h2>Second Debate</h2>
     <p>Date: October 22, 2020
@@ -84,11 +82,11 @@
       Moderator: Kristen Welker.</p>
   </div>
   <script src="sketch.js"></script>
-<div id="findings">
+<!-- <div id="findings">
   <h2>Findings</h2>
   <p>It is clearly visible from the two charts that the second debate was far more restrained and typical of previous Presidential debates than the first.</p>
   <p></p>
-</div>
+</div> -->
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-22771087-1"></script>
   <script>

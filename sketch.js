@@ -2,9 +2,12 @@
 // now maybe only) Presidential debate.
 const PHI = (Math.sqrt(5) + 1) / 2; // I use PHI for layout ratios
 
+// max_word_count is the max number of words in a transcript entry for 
+// both debates. This will be a constant used to scale the circle sizes 
+// and thereby make circle size comparable between the two debates.
 const max_word_count = 387;
 
-const speakers = { 
+const speakers = {
   "President Donald J. Trump": {
     full_name: "President Donald J. Trump",
     name: "Trump",
@@ -77,19 +80,7 @@ const db1 = (p55) => {
   let canvasW = Math.max(500, document.getElementById("debate_viz").offsetWidth);
   let canvasH = 500;
 
-  const time_axis = function (t) {
-    const debate_start_time = new Date(2020, 8, 29, 21, 0);
-    const debate_end_time = new Date(2020, 8, 29, 22, 36);
-    return p55.map(t, debate_start_time.getTime(), debate_end_time.getTime(), 0, canvasW);
-  }
-
-  const index_scale = function (i) {
-    const max_entry_idx = Object.keys(transcript_entries).length;
-    return p55.map(i, 0, max_entry_idx, 0, canvasW);
-  }
-
   const transcript_entry = {
-
     init: function () {
       // maybe call to calculate initial values for things?
       // set w, h, curr_loc, clr?
@@ -118,7 +109,7 @@ const db1 = (p55) => {
       // if(horz_check && vert_check){
       // let mouse_dist = this.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY));
       let mouse_dist = Math.abs(p55.mouseX - this.curr_loc.x);
-      let inside_canvas = (p55.mouseY>0) && (p55.mouseY<canvasH);
+      let inside_canvas = (p55.mouseY > 0) && (p55.mouseY < canvasH);
       if ((mouse_dist < 3) && inside_canvas) { // how big an area are we checking?
         this.hover = true;
       } else {
@@ -177,7 +168,7 @@ const db1 = (p55) => {
         } else if (this.name === "Biden") {
           p55.rect(rect_x - 7, (this.h - 7) - (this.w / 3), rect_w, 123, 7);
           p55.fill(0, 199);
-          p55.text(`${this.text}`, rect_x, this.h - (this.w / 3), rect_w, 123);
+          p55.text(`${this.word_count} words: ${this.text}`, rect_x, this.h - (this.w / 3), rect_w, 123);
 
         }
         p55.pop();
@@ -185,10 +176,16 @@ const db1 = (p55) => {
     },
   };
 
-  const create_transcript_entry = t => {
-    let entry = Object.create(t);
-    return entry;
-  };
+  const time_axis = function (t) {
+    const debate_start_time = new Date(2020, 8, 29, 21, 0);
+    const debate_end_time = new Date(2020, 8, 29, 22, 36);
+    return p55.map(t, debate_start_time.getTime(), debate_end_time.getTime(), 0, canvasW);
+  }
+
+  const index_scale = function (i) {
+    const max_entry_idx = Object.keys(transcript_entries).length;
+    return p55.map(i, 0, max_entry_idx, 0, canvasW);
+  }
 
   p55.setup = () => {
     c = p55.createCanvas(canvasW, canvasH);
@@ -198,7 +195,7 @@ const db1 = (p55) => {
     // generate an array of objects for each line in the transcript
     for (i in transcript_data) {
       let cl = transcript_data[i]; // cl = current line in transcript_data
-      let nto = create_transcript_entry(transcript_entry); // nto = new transcription object
+      let nto = Object.create(transcript_entry); // nto = new transcription object
 
       nto.curr_loc = p55.createVector();
       nto.h = 0;
@@ -223,10 +220,12 @@ const db1 = (p55) => {
     //render legend
 
     render_legend();
+
     for (i in transcript_entries) {
       transcript_entries[i].update();
       transcript_entries[i].render();
     }
+
     for (i in transcript_entries) { // super not great doing this twice!! But I want the text on top of the circles and lines so...
       transcript_entries[i].render_text();
     }
@@ -249,8 +248,6 @@ const db1 = (p55) => {
     p55.textSize(18);
     p55.fill(76);
     p55.text("@sspboyd", canvasW - p55.textWidth("@sspboyd"), canvasH - 29)
-
-
   };
 
   // let getClosestEntry = function (n) {
@@ -266,15 +263,13 @@ const db1 = (p55) => {
 
   let render_legend = function () {
     p55.textFont(copy_font);
-    p55.textSize(123);
+    p55.textSize(47);
     p55.fill(0, 47);
-    // p55.text("Trump", canvasW/2-p55.textWidth("Trump")/2, p55.height / 2 - 100);
-    // p55.text("Biden", canvasW/2-p55.textWidth("Biden")/2, p55.height - 100);
-    p55.text("Trump", 0, 200);
-    p55.text("Biden", 0, p55.height / 2 + 200);
+    p55.text("Trump", 0, p55.textAscent("Trump"));
+    p55.text("Biden", 0, p55.height);
     p55.textSize(29);
     p55.fill(0, 76);
-    p55.text("Wallace", 0, (p55.height / 2) + (p55.textAscent("Wallace") / 2));
+    p55.text("Wallace", 0, (p55.height / 2) - 2);
   };
 
   let exportImg = function () {
@@ -292,8 +287,6 @@ const db1 = (p55) => {
       exportImg();
     }
   };
-
-
 };
 myp5 = new p5(db1, 'debate_viz');
 
@@ -331,7 +324,6 @@ const db2 = (p55) => {
   }
 
   const transcript_entry = {
-
     init: function () {
       // maybe call to calculate initial values for things?
       // set w, h, curr_loc, clr?
@@ -361,7 +353,7 @@ const db2 = (p55) => {
       // if(horz_check && vert_check){
       // let mouse_dist = this.curr_loc.dist(p55.createVector(p55.mouseX, p55.mouseY));
       let mouse_dist = Math.abs(p55.mouseX - this.curr_loc.x);
-      let inside_canvas = (p55.mouseY>0) && (p55.mouseY<canvasH);
+      let inside_canvas = (p55.mouseY > 0) && (p55.mouseY < canvasH);
       if ((mouse_dist < 4) && inside_canvas) { // how big an area are we checking?
         this.hover = true;
       } else {
@@ -386,7 +378,7 @@ const db2 = (p55) => {
         p55.ellipse(0, 0, this.w / 3, this.h / 3);
         // p55.ellipse(0, 0, 2, 2);
       } else {
-        p55.stroke(255,123);
+        p55.stroke(255, 123);
         p55.ellipse(0, this.h / 1.2, this.w / 3, this.h / 3); // lots of jank in here. Would do well to refactor this.
         p55.noStroke();
         // p55.fill(255);
@@ -430,11 +422,6 @@ const db2 = (p55) => {
     },
   };
 
-  const create_transcript_entry = t => {
-    let entry = Object.create(t);
-    return entry;
-  };
-
   p55.setup = () => {
     c = p55.createCanvas(canvasW, canvasH);
     // c.parent('debate_viz');
@@ -443,7 +430,7 @@ const db2 = (p55) => {
     // generate an array of objects for each line in the transcript
     for (i in transcript_data) {
       let cl = transcript_data[i]; // cl = current line in transcript_data
-      let nto = create_transcript_entry(transcript_entry); // nto = new transcription object
+      let nto = Object.create(transcript_entry); // nto = new transcription object
 
       nto.curr_loc = p55.createVector();
       nto.h = 0;
@@ -509,15 +496,13 @@ const db2 = (p55) => {
 
   let render_legend = function () {
     p55.textFont(copy_font);
-    p55.textSize(123);
+    p55.textSize(47);
     p55.fill(0, 47);
-    // p55.text("Trump", canvasW/2-p55.textWidth("Trump")/2, p55.height / 2 - 100);
-    // p55.text("Biden", canvasW/2-p55.textWidth("Biden")/2, p55.height - 100);
-    p55.text("Trump", 0, 200);
-    p55.text("Biden", 0, p55.height / 2 + 200);
+    p55.text("Trump", 0, p55.textAscent("Trump"));
+    p55.text("Biden", 0, p55.height);
     p55.textSize(29);
     p55.fill(0, 76);
-    p55.text("Welker", 0, (p55.height / 2) + (p55.textAscent("Welker") / 2));
+    p55.text("Welker", 0, (p55.height / 2) - 2);
   };
 
   let exportImg = function () {
@@ -535,8 +520,6 @@ const db2 = (p55) => {
       exportImg();
     }
   };
-
-
 };
 
-myp5 = new p5(db2, 'debate2_viz'); 
+myp5 = new p5(db2, 'debate2_viz');

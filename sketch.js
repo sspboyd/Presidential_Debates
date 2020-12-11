@@ -61,24 +61,50 @@ const titles = {
   author: "Built by Stephen Boyd, @sspboyd",
 }
 
+
+let viz_controller = {
+  state: "intro", // default value. valid options are intro, viz, about
+  // time to complete loading animation
+  load_duration: undefined,
+  total_elts: undefined,
+  debate_start_time: undefined,
+  debate_end_time: undefined,
+
+
+  mPressed: function () {
+    if (this.state === "intro") {
+      this.state = "viz";
+    }
+  },
+};
+
+
+
+
+
 let myp5; // this var will be used to construct both p5 debate instances
 
-// First Debate
+// Debate 1 Start
 const db1 = (p55) => {
   let copy_font;
+  let transcript_data; // holds the json data
+
+  let c; // declaring the canvas var here so it can be used later in saveCanvas() func
+  let te_bar_w; // transcript entry bar width - don't much like this var name
+  let transcript_entries = []; // holds the objects for each line of the transcript
+  // let canvasW = Math.max(1100, p55.windowWidth);
+  let canvasW = Math.max(500, document.getElementById("debate_viz").offsetWidth);
+  let canvasH = 500;
+  let db1_vc = Object.create(viz_controller);
+
+
   p55.preload = () => {
     let url = 'data/newTranscript.json';
     transcript_data = p55.loadJSON(url);
     copy_font = p55.loadFont('assets/fonts/Georgia.ttf');
   };
 
-  let c; // declaring the canvas var here so it can be used later in saveCanvas() func
-  let transcript_data; // holds the json data
-  let te_bar_w; // transcript entry bar width - don't much like this var name
-  let transcript_entries = []; // holds the objects for each line of the transcript
-  // let canvasW = Math.max(1100, p55.windowWidth);
-  let canvasW = Math.max(500, document.getElementById("debate_viz").offsetWidth);
-  let canvasH = 500;
+
 
   const transcript_entry = {
     init: function () {
@@ -101,7 +127,7 @@ const db1 = (p55) => {
         this.curr_loc.y = (p55.height / 2);
       }
 
-      this.curr_loc.x = time_axis(this.timestamp.getTime());
+      this.curr_loc.x = p55.map(this.timestamp.getTime(), db1_vc.debate_start_time.getTime(), db1_vc.debate_end_time.getTime(), 0, canvasW);
 
       // check mouse loc for hover
       // let horz_check = Math.abs(this.curr_loc.x - p55.mouseX) < 2;
@@ -176,11 +202,6 @@ const db1 = (p55) => {
     },
   };
 
-  const time_axis = function (t) {
-    const debate_start_time = new Date(2020, 8, 29, 21, 0);
-    const debate_end_time = new Date(2020, 8, 29, 22, 36);
-    return p55.map(t, debate_start_time.getTime(), debate_end_time.getTime(), 0, canvasW);
-  }
 
   const index_scale = function (i) {
     const max_entry_idx = Object.keys(transcript_entries).length;
@@ -210,11 +231,19 @@ const db1 = (p55) => {
 
       transcript_entries.push(nto);
     };
-    // let result = getClosestEntry('Biden');
+
+    db1_vc.state = 'viz';
+    db1_vc.load_duration = 5; // seconds
+    db1_vc.debate_start_time = new Date(2020, 8, 29, 21, 0);
+    db1_vc.debate_end_time = new Date(2020, 8, 29, 22, 36);
+    db1_vc.total_elts = transcript_entries.length;
+
   };
 
   p55.draw = () => {
     p55.background(255);
+
+    if(db1_vc.state === "viz"){
     // find objects closest to mouse for each speaker
     // set_hover();
     //render legend
@@ -229,10 +258,8 @@ const db1 = (p55) => {
     for (i in transcript_entries) { // super not great doing this twice!! But I want the text on top of the circles and lines so...
       transcript_entries[i].render_text();
     }
-    // render graph
-    // render titles
 
-    // render axis
+    // render the x axis
     p55.strokeWeight(.5);
     p55.stroke(255);
     p55.line(0, p55.height / 2, canvasW, canvasH / 2);
@@ -242,12 +269,14 @@ const db1 = (p55) => {
     p55.stroke(255, 76);
     p55.strokeWeight(.76);
     p55.rect(p55.mouseX - 1.5, 0, 3, p55.height);
+  }
 
     // render attrib watermark
     p55.textFont(copy_font);
-    p55.textSize(18);
+    p55.textSize(11);
     p55.fill(76);
-    p55.text("@sspboyd", canvasW - p55.textWidth("@sspboyd"), canvasH - 29)
+    p55.text("@sspboyd", canvasW - p55.textWidth("@sspboyd"), canvasH - 29);
+
   };
 
   // let getClosestEntry = function (n) {
@@ -289,9 +318,10 @@ const db1 = (p55) => {
   };
 };
 myp5 = new p5(db1, 'debate_viz');
+  ///////// Debate 1 End
 
 
-// Second Debate
+// Debate 2 Start
 const db2 = (p55) => {
   let copy_font;
   p55.preload = () => {
@@ -311,12 +341,8 @@ const db2 = (p55) => {
   // let canvasW = Math.max(1100, p55.windowWidth);
   let canvasW = Math.max(500, document.getElementById("debate2_viz").offsetWidth);
   let canvasH = 500;
+  let db2_vc = Object.create(viz_controller);
 
-  const time_axis = function (t) {
-    const debate_start_time = new Date(2020, 9, 22, 21, 0);
-    const debate_end_time = new Date(2020, 9, 22, 22, 45);
-    return p55.map(t, debate_start_time.getTime(), debate_end_time.getTime(), 0, canvasW);
-  }
 
   const index_scale = function (i) {
     const max_entry_idx = Object.keys(transcript_entries).length;
@@ -345,7 +371,7 @@ const db2 = (p55) => {
         this.curr_loc.y = (p55.height / 2);
       }
 
-      this.curr_loc.x = time_axis(this.timestamp.getTime());
+      this.curr_loc.x = p55.map(this.timestamp.getTime(), db2_vc.debate_start_time.getTime(), db2_vc.debate_end_time.getTime(), 0, canvasW);
 
       // check mouse loc for hover
       // let horz_check = Math.abs(this.curr_loc.x - p55.mouseX) < 2;
@@ -445,6 +471,14 @@ const db2 = (p55) => {
 
       transcript_entries.push(nto);
     };
+
+    db2_vc.state = 'viz';
+    db2_vc.load_duration = 5; // seconds
+    db2_vc.debate_start_time = new Date(2020, 9, 22, 21, 0);
+    db2_vc.debate_end_time = new Date(2020, 9, 22, 22, 45);
+    db2_vc.total_elts = transcript_entries.length;
+
+
     // let result = getClosestEntry('Biden');
   };
 
@@ -482,6 +516,16 @@ const db2 = (p55) => {
     p55.fill(76);
     p55.text("@sspboyd", canvasW - p55.textWidth("@sspboyd"), canvasH - 29);
   };
+
+  ///////// Debate 2 End
+
+
+
+
+
+
+
+
 
   // let getClosestEntry = function (n) {
   //   let result = transcript_entries.filter(e => e.name === n);
